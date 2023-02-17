@@ -1,2 +1,1 @@
-# user-profile
-User Profile API
+# User Profile API
