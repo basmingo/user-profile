@@ -1,0 +1,10 @@
+spring:
+  liquibase:
+    enabled: true
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/user-profile
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: validate
