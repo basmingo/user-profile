@@ -1,4 +1,4 @@
-package com.user.profile.entity;
+package com.iprody.user.profile.persistence.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,16 +19,31 @@ import lombok.Setter;
 @Setter
 public class User {
 
+    /**
+     * ID of the user is a primary key for the table.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
+    /**
+     * First name of the user.
+     */
     @Column(nullable = false, length = 30)
     private String firstName;
+    /**
+     * Last name of the user.
+     */
     @Column(nullable = false, length = 30)
     private String lastName;
+    /**
+     * Email of the user.
+     */
     @Email
-    @Column(unique = true, nullable = false, length = 50)
+    @Column(unique = true, length = 50)
     private String email;
+    /**
+     * Nested object with details of the user.
+     */
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_details_id", referencedColumnName = "id")
     private UserDetails userDetails;

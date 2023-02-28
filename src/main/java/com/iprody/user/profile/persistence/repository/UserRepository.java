@@ -1,6 +1,6 @@
-package com.user.profile.repository;
+package com.iprody.user.profile.persistence.repository;
 
-import com.user.profile.entity.User;
+import com.iprody.user.profile.persistence.entity.User;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
 
