@@ -5,6 +5,19 @@ spring:
     url: r2dbc:postgresql://localhost:5432/user-profile
     username: postgres
     password: postgres
+    pool:
+      enabled: false
+  webflux:
+    base-path: /api/v1
   jpa:
     hibernate:
       ddl-auto: validate
+springdoc:
+  swagger-ui:
+    path: /swagger-doc/swagger-ui.html
+    operations-sorter: method
+  api-docs:
+    groups:
+      enabled: true
+    path: /swagger-doc/v3/api-docs
+

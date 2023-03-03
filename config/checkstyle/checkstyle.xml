@@ -38,8 +38,7 @@
 
     <!-- https://checkstyle.org/config_filters.html#SuppressionFilter -->
     <module name="SuppressionFilter">
-        <property name="file" value="${org.checkstyle.sun.suppressionfilter.config}"
-                  default="checkstyle-suppressions.xml"/>
+        <property name="file" value="${config_loc}/checkstyle-suppressions.xml"/>
         <property name="optional" value="true"/>
     </module>
 
@@ -238,11 +237,10 @@
 
         <!-- https://checkstyle.org/config_filters.html#SuppressionXpathFilter -->
         <module name="SuppressionXpathFilter">
-            <property name="file" value="${org.checkstyle.sun.suppressionxpathfilter.config}"
+            <property name="file" value="${config_loc}/checkstyle-xpath-suppressions.xml"
                       default="checkstyle-xpath-suppressions.xml"/>
-            <property name="optional" value="true"/>
+            <property name="optional" value="false"/>
         </module>
 
     </module>
-
 </module>

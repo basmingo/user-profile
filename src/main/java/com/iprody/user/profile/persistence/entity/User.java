@@ -1,14 +1,14 @@
 package com.iprody.user.profile.persistence.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
