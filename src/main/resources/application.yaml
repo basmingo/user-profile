@@ -1,9 +1,12 @@
 spring:
-  liquibase:
-    enabled: true
   r2dbc:
     url: r2dbc:postgresql://localhost:5432/user-profile
     username: postgres
+    password: postgres
+  liquibase:
+    enabled: true
+    url: jdbc:postgresql://localhost:5432/user-profile
+    user: postgres
     password: postgres
     pool:
       enabled: false

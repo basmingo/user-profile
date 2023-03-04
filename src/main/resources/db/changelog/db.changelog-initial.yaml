@@ -23,50 +23,53 @@ databaseChangeLog:
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
         - createTable:
+            tableName: user_details
             columns:
               - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
                   constraints:
                     nullable: false
                     primaryKey: true
                     primaryKeyName: pk_user_details
-                  name: id
-                  type: BIGINT
               - column:
-                  constraints:
-                    nullable: false
                   name: telegram_id
                   type: VARCHAR(255)
+                  constraints:
+                    nullable: false
               - column:
                   name: mobile_phone
                   type: VARCHAR(30)
               - column:
                   name: user_id
                   type: BIGINT
-            tableName: user_details
   - changeSet:
       id: 1676980939478-4
       author: Viktoria
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
         - createTable:
+            tableName: users
             columns:
               - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
                   constraints:
                     nullable: false
                     primaryKey: true
                     primaryKeyName: pk_users
-                  name: id
-                  type: BIGINT
               - column:
-                  constraints:
-                    nullable: false
                   name: first_name
                   type: VARCHAR(30)
-              - column:
                   constraints:
                     nullable: false
+              - column:
                   name: last_name
                   type: VARCHAR(30)
+                  constraints:
+                    nullable: false
               - column:
                   constraints:
                     nullable: false
@@ -75,16 +78,15 @@ databaseChangeLog:
               - column:
                   name: user_details_id
                   type: BIGINT
-            tableName: users
   - changeSet:
       id: 1676980939478-5
       author: Viktoria
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
         - addUniqueConstraint:
+            tableName: users
             columnNames: email
             constraintName: uc_users_email
-            tableName: users
   - changeSet:
       id: 1676980939478-6
       author: Viktoria
@@ -107,4 +109,3 @@ databaseChangeLog:
             constraintName: FK_USER_DETAILS_ON_USER
             referencedColumnNames: id
             referencedTableName: users
-
