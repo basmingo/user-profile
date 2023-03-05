@@ -12,6 +12,8 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.ZoneId;
+
 @Entity
 @Table(name = "user_details")
 @Getter
@@ -33,6 +35,11 @@ public class UserDetails {
      */
     @Column(name = "mobile_phone", length = 30)
     private String mobilePhone;
+    /**
+     * A timezone of the user.
+     */
+    @Column(name = "zone_id")
+    private ZoneId zoneId;
     /**
      * A user that holds this data.
      */

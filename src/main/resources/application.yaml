@@ -3,13 +3,13 @@ spring:
     url: r2dbc:postgresql://localhost:5432/user-profile
     username: postgres
     password: postgres
+    pool:
+      enabled: false
   liquibase:
     enabled: true
     url: jdbc:postgresql://localhost:5432/user-profile
     user: postgres
     password: postgres
-    pool:
-      enabled: false
   webflux:
     base-path: /api/v1
   jpa:

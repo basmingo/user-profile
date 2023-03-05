@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1678035969023-2
+      author: Viktoria Kenshenskaia
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createSequence:
+            incrementBy: 50
+            sequenceName: seq_user_details
+            startValue: 1
+  - changeSet:
+      id: 1678035969023-3
+      author: Viktoria Kenshenskaia
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createSequence:
+            incrementBy: 50
+            sequenceName: seq_users
+            startValue: 1
+  - changeSet:
+      id: 1678035969023-4
+      author: Viktoria Kenshenskaia
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: zone_id
+                  type: VARCHAR(255)
+            tableName: user_details
+  - changeSet:
+      id: 1678035969023-5
+      author: Viktoria Kenshenskaia
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropSequence:
+            sequenceName: seq_user_details
+  - changeSet:
+      id: 1678035969023-6
+      author: Viktoria Kenshenskaia
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropSequence:
+            sequenceName: seq_users
+  - changeSet:
+      id: 1678035969023-1
+      author: Viktoria Kenshenskaia
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropNotNullConstraint:
+            columnDataType: varchar(50)
+            columnName: email
+            tableName: users
+

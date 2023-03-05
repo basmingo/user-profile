@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
+import java.time.ZoneId;
 import java.util.stream.Stream;
 
 @WebFluxTest(controllers = UserProfileController.class)
@@ -437,6 +438,7 @@ class UserProfileControllerTest {
         userDetailsDto.setId(1);
         userDetailsDto.setTelegramId("@telegram");
         userDetailsDto.setMobilePhone("+111 123 456 789");
+        userDetailsDto.setZoneId(ZoneId.of("Europe/Sofia"));
         final UserDto userDto = new UserDto();
         userDto.setId(1);
         userDto.setFirstName("firstname");
@@ -447,27 +449,33 @@ class UserProfileControllerTest {
     }
 
     static Stream<Arguments> provideInvalidUserDetailsDto() {
+        final ZoneId zoneId = ZoneId.of("America/New_York");
+        System.out.println(zoneId);
         return Stream.of(
-                Arguments.of(new UserDetailsDto(0, null, "+111 123 456 781")),
-                Arguments.of(new UserDetailsDto(0, "", "+111 123 456 782")),
-                Arguments.of(new UserDetailsDto(0, "@telegramid", "+test"))
+                Arguments.of(new UserDetailsDto(0, null, "+111 123 456 781", zoneId)),
+                Arguments.of(new UserDetailsDto(0, "", "+111 123 456 782", zoneId)),
+                Arguments.of(new UserDetailsDto(0, "@telegramid", "+test", zoneId)),
+                Arguments.of(new UserDetailsDto(0, "@telegramid0", "+111 123 456 791", null))
         );
     }
 
 
     static Stream<Arguments> provideInvalidUserDto() {
+        final ZoneId zoneId = ZoneId.of("Asia/Shanghai");
         return Stream.of(
                 Arguments.of(new UserDto(0, "", "lastname0", "test1@test.com",
-                        new UserDetailsDto(0, "@telegramid1", "+111 123 456 783"))),
+                        new UserDetailsDto(0, "@telegramid1", "+111 123 456 783", zoneId))),
                 Arguments.of(new UserDto(0, "firstname1", "", "test2@test.com",
-                        new UserDetailsDto(0, "@telegramid2", "+111 123 456 784"))),
+                        new UserDetailsDto(0, "@telegramid2", "+111 123 456 784", zoneId))),
                 Arguments.of(new UserDto(0, "firstname2", "lastname1", "",
-                        new UserDetailsDto(0, "@telegramid3", "+111 123 456 785"))),
+                        new UserDetailsDto(0, "@telegramid3", "+111 123 456 785", zoneId))),
                 Arguments.of(new UserDto(0, "firstname3", "lastname2", "test3@test.com", null)),
                 Arguments.of(new UserDto(0, "firstname4", "lastname3", "test4@test.com",
-                        new UserDetailsDto(0, null, "+111 123 456 786"))),
+                        new UserDetailsDto(0, null, "+111 123 456 786", zoneId))),
                 Arguments.of(new UserDto(0, "firstname5", "lastname4", "",
-                        new UserDetailsDto(0, "@telegramid4", "test")))
+                        new UserDetailsDto(0, "@telegramid4", "test", zoneId))),
+                Arguments.of(new UserDto(0, "firstname6", "lastname5", "",
+                        new UserDetailsDto(0, "@telegramid6", "+111 123 456 792", null)))
         );
     }
 }

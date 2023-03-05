@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.ZoneId;
+
 /**
  * A DTO for the UserDetails entity.
  */
@@ -49,4 +51,9 @@ public class UserDetailsDto {
             + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?){2}\\d{3}$"
             + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$")
     private String mobilePhone;
+    /**
+     * A timezone of the user.
+     */
+    @NotNull(message = "Timezone cannot be null")
+    private ZoneId zoneId;
 }
