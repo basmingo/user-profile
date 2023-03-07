@@ -3,8 +3,9 @@ package com.iprody.user.profile.controller;
 import com.iprody.user.profile.api.controller.UserProfileController;
 import com.iprody.user.profile.api.dto.UserDetailsDto;
 import com.iprody.user.profile.api.dto.UserDto;
+import com.iprody.user.profile.exception.ResourceNotFoundException;
+import com.iprody.user.profile.exception.ResourceProcessingException;
 import com.iprody.user.profile.service.UserProfileService;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,11 +34,12 @@ class UserProfileControllerTest {
     private final String jsonEmail = "$.email";
     private final String jsonTelegramId = "$.telegramId";
     private final String jsonMobilePhone = "$.mobilePhone";
-    private final String jsonTimestamp = "$.timestamp";
-    private final String jsonPath = "$.path";
     private final String jsonStatus = "$.status";
-    private final String jsonError = "$.error";
-    private final String jsonRequestId = "$.requestId";
+    private final String jsonMessage = "$.message";
+    private final String jsonDetails = "$.details";
+    private final String userNotFoundMessage = "User not found";
+    private final String userDetailsNotFoundMessage = "User details not found";
+    private final String status500message = "Something went wrong";
     private final String methodSourcePath = "com.iprody.user.profile.controller."
             + "UserProfileControllerTest#";
 
@@ -71,8 +73,6 @@ class UserProfileControllerTest {
                     .jsonPath(jsonEmail).isEqualTo(userDto.getEmail());
         }
 
-
-        //        @ArgumentsSource(UserDtoArgumentsProvider.class)
         @ParameterizedTest
         @MethodSource(methodSourcePath + "provideInvalidUserDto")
         void shouldNotCreateUser_becauseRequestValidationFailed_soResponseIs400(UserDto invalidUserDto) {
@@ -86,19 +86,17 @@ class UserProfileControllerTest {
             response.expectStatus()
                     .isBadRequest()
                     .expectBody()
-                    .jsonPath(jsonTimestamp).exists()
-                    .jsonPath(jsonPath).exists()
+                    .consumeWith(System.out::println)
                     .jsonPath(jsonStatus).exists()
-                    .jsonPath(jsonError).exists()
-                    .jsonPath(jsonRequestId).exists();
+                    .jsonPath(jsonMessage).exists()
+                    .jsonPath(jsonDetails).exists();
         }
 
         @Test
-        @Disabled
         void shouldNotCreateUser_becauseInternalServerError_soResponseIs500() {
             final UserDto userDto = getCorrectUser();
             Mockito.when(userProfileService.createUser(userDto))
-                    .thenThrow();
+                    .thenThrow(new ResourceProcessingException(status500message));
 
             final WebTestClient.ResponseSpec response = webTestClient.post()
                     .uri(baseUrl)
@@ -110,11 +108,10 @@ class UserProfileControllerTest {
             response.expectStatus()
                     .is5xxServerError()
                     .expectBody()
-                    .jsonPath(jsonTimestamp).exists()
-                    .jsonPath(jsonPath).exists()
+                    .consumeWith(System.out::println)
                     .jsonPath(jsonStatus).exists()
-                    .jsonPath(jsonError).exists()
-                    .jsonPath(jsonRequestId).exists();
+                    .jsonPath(jsonMessage).exists()
+                    .jsonPath(jsonDetails).exists();
 
         }
     }
@@ -155,19 +152,17 @@ class UserProfileControllerTest {
             response.expectStatus()
                     .isBadRequest()
                     .expectBody()
-                    .jsonPath(jsonTimestamp).exists()
-                    .jsonPath(jsonPath).exists()
+                    .consumeWith(System.out::println)
                     .jsonPath(jsonStatus).exists()
-                    .jsonPath(jsonError).exists()
-                    .jsonPath(jsonRequestId).exists();
+                    .jsonPath(jsonMessage).exists()
+                    .jsonPath(jsonDetails).exists();
         }
 
         @Test
-        @Disabled
         void shouldNotUpdateUser_becauseUserIsNotFound_soResponseIs404() {
             final UserDto userDto = getCorrectUser();
             Mockito.when(userProfileService.updateUser(1, userDto))
-                    .thenThrow();
+                    .thenThrow(new ResourceNotFoundException(userNotFoundMessage));
             final WebTestClient.ResponseSpec response = webTestClient.put()
                     .uri(baseUrl + urlId)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -178,19 +173,17 @@ class UserProfileControllerTest {
             response.expectStatus()
                     .isNotFound()
                     .expectBody()
-                    .jsonPath(jsonTimestamp).exists()
-                    .jsonPath(jsonPath).exists()
+                    .consumeWith(System.out::println)
                     .jsonPath(jsonStatus).exists()
-                    .jsonPath(jsonError).exists()
-                    .jsonPath(jsonRequestId).exists();
+                    .jsonPath(jsonMessage).exists()
+                    .jsonPath(jsonDetails).exists();
         }
 
         @Test
-        @Disabled
         void shouldNotUpdateUser_becauseInternalServerError_soResponseIs500() {
             final UserDto userDto = getCorrectUser();
             Mockito.when(userProfileService.updateUser(1, userDto))
-                    .thenThrow();
+                    .thenThrow(new ResourceProcessingException(status500message));
             final WebTestClient.ResponseSpec response = webTestClient.put()
                     .uri(baseUrl + urlId)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -201,11 +194,10 @@ class UserProfileControllerTest {
             response.expectStatus()
                     .is5xxServerError()
                     .expectBody()
-                    .jsonPath(jsonTimestamp).exists()
-                    .jsonPath(jsonPath).exists()
+                    .consumeWith(System.out::println)
                     .jsonPath(jsonStatus).exists()
-                    .jsonPath(jsonError).exists()
-                    .jsonPath(jsonRequestId).exists();
+                    .jsonPath(jsonMessage).exists()
+                    .jsonPath(jsonDetails).exists();
         }
     }
 
@@ -246,19 +238,17 @@ class UserProfileControllerTest {
             response.expectStatus()
                     .isBadRequest()
                     .expectBody()
-                    .jsonPath(jsonTimestamp).exists()
-                    .jsonPath(jsonPath).exists()
+                    .consumeWith(System.out::println)
                     .jsonPath(jsonStatus).exists()
-                    .jsonPath(jsonError).exists()
-                    .jsonPath(jsonRequestId).exists();
+                    .jsonPath(jsonMessage).exists()
+                    .jsonPath(jsonDetails).exists();
         }
 
         @Test
-        @Disabled
         void shouldNotUpdateUserDetails_becauseUserDetailsIsNotFound_soResponseIs404() {
             final UserDetailsDto userDetailsDto = getCorrectUser().getUserDetails();
             Mockito.when(userProfileService.updateUserDetails(1, 1, userDetailsDto))
-                    .thenThrow();
+                    .thenThrow(new ResourceNotFoundException(userDetailsNotFoundMessage));
 
             final WebTestClient.ResponseSpec response = webTestClient.put()
                     .uri(baseUrl + urlIdDetails)
@@ -270,19 +260,17 @@ class UserProfileControllerTest {
             response.expectStatus()
                     .isNotFound()
                     .expectBody()
-                    .jsonPath(jsonTimestamp).exists()
-                    .jsonPath(jsonPath).exists()
+                    .consumeWith(System.out::println)
                     .jsonPath(jsonStatus).exists()
-                    .jsonPath(jsonError).exists()
-                    .jsonPath(jsonRequestId).exists();
+                    .jsonPath(jsonMessage).exists()
+                    .jsonPath(jsonDetails).exists();
         }
 
         @Test
-        @Disabled
         void shouldNotUpdateUserDetails_becauseInternalServerError_soResponseIs500() {
             final UserDetailsDto userDetailsDto = getCorrectUser().getUserDetails();
             Mockito.when(userProfileService.updateUserDetails(1, 1, userDetailsDto))
-                    .thenThrow();
+                    .thenThrow(new ResourceProcessingException(status500message));
 
             final WebTestClient.ResponseSpec response = webTestClient.put()
                     .uri(baseUrl + urlIdDetails)
@@ -294,11 +282,10 @@ class UserProfileControllerTest {
             response.expectStatus()
                     .is5xxServerError()
                     .expectBody()
-                    .jsonPath(jsonTimestamp).exists()
-                    .jsonPath(jsonPath).exists()
+                    .consumeWith(System.out::println)
                     .jsonPath(jsonStatus).exists()
-                    .jsonPath(jsonError).exists()
-                    .jsonPath(jsonRequestId).exists();
+                    .jsonPath(jsonMessage).exists()
+                    .jsonPath(jsonDetails).exists();
         }
     }
 
@@ -326,11 +313,9 @@ class UserProfileControllerTest {
         }
 
         @Test
-        @Disabled
         void shouldNotReturnUserWithDetails_forGivenUserId_becauseUserNotFound_soResponseIs404() {
-            final UserDto userDto = getCorrectUser();
             Mockito.when(userProfileService.getUserWithDetails(1))
-                    .thenThrow();
+                    .thenThrow(new ResourceNotFoundException(userNotFoundMessage));
 
             final WebTestClient.ResponseSpec response = webTestClient.get()
                     .uri(baseUrl + urlId)
@@ -340,18 +325,16 @@ class UserProfileControllerTest {
             response.expectStatus()
                     .isNotFound()
                     .expectBody()
-                    .jsonPath(jsonTimestamp).exists()
-                    .jsonPath(jsonPath).exists()
+                    .consumeWith(System.out::println)
                     .jsonPath(jsonStatus).exists()
-                    .jsonPath(jsonError).exists()
-                    .jsonPath(jsonRequestId).exists();
+                    .jsonPath(jsonMessage).exists()
+                    .jsonPath(jsonDetails).exists();
         }
 
         @Test
-        @Disabled
         void shouldNotReturnUserWithDetails_forGivenUserId_becauseInternalServerError_soResponseIs500() {
             Mockito.when(userProfileService.getUserWithDetails(1))
-                    .thenThrow();
+                    .thenThrow(new ResourceProcessingException(status500message));
 
             final WebTestClient.ResponseSpec response = webTestClient.get()
                     .uri(baseUrl + urlId)
@@ -361,11 +344,10 @@ class UserProfileControllerTest {
             response.expectStatus()
                     .is5xxServerError()
                     .expectBody()
-                    .jsonPath(jsonTimestamp).exists()
-                    .jsonPath(jsonPath).exists()
+                    .consumeWith(System.out::println)
                     .jsonPath(jsonStatus).exists()
-                    .jsonPath(jsonError).exists()
-                    .jsonPath(jsonRequestId).exists();
+                    .jsonPath(jsonMessage).exists()
+                    .jsonPath(jsonDetails).exists();
         }
     }
 
@@ -391,10 +373,9 @@ class UserProfileControllerTest {
         }
 
         @Test
-        @Disabled
         void shouldNotReturnUserDetails_forGivenUserDetailsId_becauseNotFound_soResponseIs404() {
             Mockito.when(userProfileService.getUserDetails(1, 1))
-                    .thenThrow();
+                    .thenThrow(new ResourceNotFoundException(userDetailsNotFoundMessage));
 
             final WebTestClient.ResponseSpec response = webTestClient.get()
                     .uri(baseUrl + urlIdDetails)
@@ -404,18 +385,16 @@ class UserProfileControllerTest {
             response.expectStatus()
                     .isNotFound()
                     .expectBody()
-                    .jsonPath(jsonTimestamp).exists()
-                    .jsonPath(jsonPath).exists()
+                    .consumeWith(System.out::println)
                     .jsonPath(jsonStatus).exists()
-                    .jsonPath(jsonError).exists()
-                    .jsonPath(jsonRequestId).exists();
+                    .jsonPath(jsonMessage).exists()
+                    .jsonPath(jsonDetails).exists();
         }
 
         @Test
-        @Disabled
         void shouldNotReturnUserDetails_forGivenUserDetailsId_becauseInternalServerError_soResponseIs500() {
             Mockito.when(userProfileService.getUserDetails(1, 1))
-                    .thenThrow();
+                    .thenThrow(new ResourceProcessingException(status500message));
 
             final WebTestClient.ResponseSpec response = webTestClient.get()
                     .uri(baseUrl + urlIdDetails)
@@ -425,11 +404,10 @@ class UserProfileControllerTest {
             response.expectStatus()
                     .is5xxServerError()
                     .expectBody()
-                    .jsonPath(jsonTimestamp).exists()
-                    .jsonPath(jsonPath).exists()
+                    .consumeWith(System.out::println)
                     .jsonPath(jsonStatus).exists()
-                    .jsonPath(jsonError).exists()
-                    .jsonPath(jsonRequestId).exists();
+                    .jsonPath(jsonMessage).exists()
+                    .jsonPath(jsonDetails).exists();
         }
     }
 
