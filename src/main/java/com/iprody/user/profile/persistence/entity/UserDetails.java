@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +24,8 @@ public class UserDetails {
      * ID of the user details is a primary key.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_details_generator")
+    @SequenceGenerator(name = "user_details_generator", sequenceName = "seq_user_details")
     private long id;
     /**
      * Telegram ID to link with a client profile in [telegram.org](https://telegram.org/).

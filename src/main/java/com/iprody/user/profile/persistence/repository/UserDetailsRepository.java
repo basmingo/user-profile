@@ -1,9 +1,7 @@
 package com.iprody.user.profile.persistence.repository;
 
 import com.iprody.user.profile.persistence.entity.UserDetails;
-import org.springframework.data.r2dbc.repository.R2dbcRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
 
-@Repository
-public interface UserDetailsRepository extends R2dbcRepository<UserDetails, Long> {
+public interface UserDetailsRepository extends CrudRepository<UserDetails, Long> {
 }

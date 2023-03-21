@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+
+  postgres:
+    image: postgres:15.1-alpine
+    container_name: user_profile_database
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: user-profile
+      PGDATA: /data/postgres
+    volumes:
+      - database:/data/postgres
+    networks:
+      - user-profile-db-network
+    ports:
+      - "5431:5432"
+    restart: always
+
+  pgAdmin:
+    container_name: pgAdminForUP
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: password
+    volumes:
+      - pgAdmin:/var/lib/pgadmin
+    ports:
+      - "5051:80"
+    networks:
+      - user-profile-db-network
+    depends_on:
+      - user_profile_database
+
+networks:
+  user-profile-db-network:
+    driver: bridge
+
+volumes:
+  database:
+  pgAdmin:
+
