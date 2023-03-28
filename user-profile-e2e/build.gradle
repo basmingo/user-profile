@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.3'
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'checkstyle'
+
+group 'com.iprody.user.profile.e2e'
+version '1.0.0-SNAPSHOT'
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+def cucumberVersion = '7.11.1'
+
+repositories {
+    mavenCentral()
+}
+
+test {
+    useJUnitPlatform()
+}
+
+dependencies {
+    // Spring dependencies
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Third-party dependencies
+    implementation 'io.cucumber:cucumber-core:' + cucumberVersion
+    implementation 'io.cucumber:cucumber-java:' + cucumberVersion
+    implementation 'io.cucumber:cucumber-spring:' + cucumberVersion
+    implementation 'org.apache.commons:commons-io:1.3.2'
+
+    // Test dependencies
+    testImplementation 'io.cucumber:cucumber-junit:' + cucumberVersion
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
