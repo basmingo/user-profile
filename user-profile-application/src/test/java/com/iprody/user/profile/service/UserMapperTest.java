@@ -4,11 +4,11 @@ import com.iprody.user.profile.api.dto.UserDetailsDto;
 import com.iprody.user.profile.api.dto.UserDto;
 import com.iprody.user.profile.persistence.entity.User;
 import com.iprody.user.profile.persistence.entity.UserDetails;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import reactor.test.StepVerifier;
-import java.time.ZoneId;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.time.ZoneId;
 
 /**
  * Unit test for checking if mapper works properly.
@@ -50,7 +50,7 @@ class UserMapperTest {
 
         StepVerifier
                 .create(actualUser)
-                .assertNext(user -> assertThat(user)
+                .assertNext(user -> Assertions.assertThat(user)
                         .usingRecursiveComparison()
                         .isEqualTo(expectedUser))
                 .verifyComplete();

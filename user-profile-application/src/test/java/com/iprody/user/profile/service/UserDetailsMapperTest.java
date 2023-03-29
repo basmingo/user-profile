@@ -2,10 +2,10 @@ package com.iprody.user.profile.service;
 
 import com.iprody.user.profile.api.dto.UserDetailsDto;
 import com.iprody.user.profile.persistence.entity.UserDetails;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import java.time.ZoneId;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.time.ZoneId;
 
 class UserDetailsMapperTest {
     private static final String TELEGRAM_ID = "TestTelegramId";
@@ -22,7 +22,7 @@ class UserDetailsMapperTest {
         final var expectedUserDetails = getUserDetails();
         final var mappedUserDto = new UserDetailsMapper().map(userDetailsDto);
 
-        assertThat(mappedUserDto)
+        Assertions.assertThat(mappedUserDto)
                 .usingRecursiveComparison()
                 .isEqualTo(expectedUserDetails);
     }
@@ -37,7 +37,7 @@ class UserDetailsMapperTest {
         final var userDetails = getUserDetails();
         final var actualUserDetailsDto = new UserDetailsMapper().map(userDetails);
 
-        assertThat(actualUserDetailsDto)
+        Assertions.assertThat(actualUserDetailsDto)
                 .usingRecursiveComparison()
                 .isEqualTo(expectedUserDetailsDto);
     }

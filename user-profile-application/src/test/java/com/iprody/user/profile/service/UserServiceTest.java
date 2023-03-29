@@ -3,11 +3,12 @@ package com.iprody.user.profile.service;
 import com.iprody.user.profile.api.dto.UserDetailsDto;
 import com.iprody.user.profile.api.dto.UserDto;
 import com.iprody.user.profile.exception.ResourceNotFoundException;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -16,9 +17,8 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.test.StepVerifier;
-import java.time.ZoneId;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.time.ZoneId;
 
 /**
  * Integration test, which checks if UserService
@@ -115,7 +115,7 @@ class UserServiceTest {
     void shouldReturnException_whenRecordNotMatchesGivenId() {
         StepVerifier
                 .create(userProfileService.getUserWithDetails(UNEXISTING_IN_DB_ELEMENT_INDEX))
-                .verifyErrorSatisfies(th -> assertThat(th)
+                .verifyErrorSatisfies(th -> Assertions.assertThat(th)
                         .isExactlyInstanceOf(ResourceNotFoundException.class)
                         .hasMessage("No user found with id: " + UNEXISTING_IN_DB_ELEMENT_INDEX)
                 );
