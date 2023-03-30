@@ -22,4 +22,20 @@ springdoc:
     groups:
       enabled: true
     path: /swagger-doc/v3/api-docs
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health,liquibase,prometheus
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    liquibase:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
 
