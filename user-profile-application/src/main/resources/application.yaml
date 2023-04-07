@@ -38,4 +38,7 @@ management:
     export:
       prometheus:
         enabled: true
+  tracing:
+    enabled: true
+    sampling.probability: 1.0
 

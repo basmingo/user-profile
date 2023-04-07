@@ -39,6 +39,9 @@ dependencies {
     annotationProcessor(libs.lombok)
     implementation(libs.liquibase.core)
     implementation(libs.prometheus)
+    implementation platform(libs.micrometer.tracing.bom)
+    implementation(libs.micrometer.tracing)
+    implementation(libs.micrometer.tracing.bridge.otel)
 
     //testing
     testImplementation(libs.spring.boot.test)

@@ -3,6 +3,7 @@ spring-boot-version = '3.0.3'
 openapi-version = '2.0.2'
 liquibase-version = '2.1.1'
 testcontainers-bom-version = '1.17.6'
+micrometer-tracing-version = '1.0.0'
 
 [libraries]
 #spring
@@ -11,6 +12,9 @@ spring-boot-data-jpa = { module = 'org.springframework.boot:spring-boot-starter-
 spring-boot-validation = { module = 'org.springframework.boot:spring-boot-starter-validation' }
 spring-boot-actuator = { module = 'org.springframework.boot:spring-boot-starter-actuator' }
 springdoc = {module = 'org.springdoc:springdoc-openapi-starter-webflux-ui', version.ref = 'openapi-version' }
+micrometer-tracing-bom = {module = 'io.micrometer:micrometer-tracing-bom', version.ref = 'micrometer-tracing-version'}
+micrometer-tracing =  { module = 'io.micrometer:micrometer-tracing' }
+micrometer-tracing-bridge-otel = { module = 'io.micrometer:micrometer-tracing-bridge-otel' }
 
 #third party
 postgresql = { module = 'org.postgresql:postgresql' }
@@ -32,3 +36,4 @@ testcontainers = ['testcontainers', 'testcontainers-junit-jupiter', 'testcontain
 [plugins]
 springframework = { id = 'org.springframework.boot', version.ref = 'spring-boot-version' }
 liquibase = { id = 'org.liquibase.gradle', version.ref = 'liquibase-version' }
+
