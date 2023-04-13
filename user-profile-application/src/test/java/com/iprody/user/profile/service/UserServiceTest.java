@@ -1,14 +1,12 @@
 package com.iprody.user.profile.service;
 
-import com.iprody.user.profile.api.dto.UserDetailsDto;
 import com.iprody.user.profile.api.dto.UserDto;
 import com.iprody.user.profile.exception.ResourceNotFoundException;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -18,7 +16,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.test.StepVerifier;
 
-import java.time.ZoneId;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration test, which checks if UserService
@@ -34,8 +32,6 @@ class UserServiceTest {
     private static final String FIRST_NAME = "TestFirstName";
     private static final String LAST_NAME = "TestLastName";
     private static final String LAST_NAME_UPDATED = "TestLastNameUpdated";
-    private static final String TELEGRAM_ID = "TestTelegramId";
-    private static final String MOBILE_PHONE = "TestMobilePhone";
     private static final String EMAIL_ADDRESS = "TestEmail@gmail.com";
 
     @Container
@@ -115,27 +111,10 @@ class UserServiceTest {
     void shouldReturnException_whenRecordNotMatchesGivenId() {
         StepVerifier
                 .create(userProfileService.getUserWithDetails(UNEXISTING_IN_DB_ELEMENT_INDEX))
-                .verifyErrorSatisfies(th -> Assertions.assertThat(th)
+                .verifyErrorSatisfies(th -> assertThat(th)
                         .isExactlyInstanceOf(ResourceNotFoundException.class)
                         .hasMessage("No user found with id: " + UNEXISTING_IN_DB_ELEMENT_INDEX)
                 );
-    }
-
-    private UserDetailsDto getUserDetailsDto() {
-        final var userDetailsDto = new UserDetailsDto();
-        userDetailsDto.setMobilePhone(MOBILE_PHONE);
-        userDetailsDto.setTelegramId(TELEGRAM_ID);
-        userDetailsDto.setZoneId(ZoneId.systemDefault());
-        return userDetailsDto;
-    }
-
-    private UserDetailsDto getUserDetailsDtoWithId() {
-        final var userDetailsDto = new UserDetailsDto();
-        userDetailsDto.setId(FIRST_DATABASE_ELEMENT_INDEX);
-        userDetailsDto.setMobilePhone(MOBILE_PHONE);
-        userDetailsDto.setTelegramId(TELEGRAM_ID);
-        userDetailsDto.setZoneId(ZoneId.systemDefault());
-        return userDetailsDto;
     }
 
     private UserDto getUserDto() {
@@ -143,7 +122,6 @@ class UserServiceTest {
         userDto.setFirstName(FIRST_NAME);
         userDto.setLastName(LAST_NAME);
         userDto.setEmail(EMAIL_ADDRESS);
-        userDto.setUserDetails(getUserDetailsDto());
         return userDto;
     }
 
@@ -153,7 +131,6 @@ class UserServiceTest {
         userDto.setFirstName(FIRST_NAME);
         userDto.setLastName(LAST_NAME_UPDATED);
         userDto.setEmail(EMAIL_ADDRESS);
-        userDto.setUserDetails(getUserDetailsDtoWithId());
         return userDto;
     }
 }

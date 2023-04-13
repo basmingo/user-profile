@@ -31,7 +31,7 @@ services:
     networks:
       - user-profile-db-network
     depends_on:
-      - user_profile_database
+      - postgres
 
 networks:
   user-profile-db-network:

@@ -14,27 +14,19 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class UserMapper {
     /**
-     * inner User Details Mapper.
-     */
-    private final UserDetailsMapper userDetailsMapper;
-
-    /**
      * @param userDto DTO object, which represents a User.
      * @return a User object, which could be persisted
      * by the Database.
      */
     public Mono<User> map(UserDto userDto) {
-        return Mono.defer(() -> {
-            final var user = new User();
-            user.setId(userDto.getId());
-            user.setFirstName(userDto.getFirstName());
-            user.setLastName(userDto.getLastName());
-            user.setEmail(userDto.getEmail());
-            user.setUserDetails(userDetailsMapper
-                    .map(userDto.getUserDetails()));
+        final var user = new User();
 
-            return Mono.just(user);
-        });
+        user.setId(userDto.getId());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+
+        return Mono.just(user);
     }
 
     /**
@@ -43,14 +35,13 @@ public class UserMapper {
      * @return DTO, which represents a User.
      */
     public Mono<UserDto> map(User user) {
-        return Mono.defer(() -> {
-            final var userDto = new UserDto();
-            userDto.setId(user.getId());
-            userDto.setFirstName(user.getFirstName());
-            userDto.setLastName(user.getLastName());
-            userDto.setEmail(user.getEmail());
-            userDto.setUserDetails(userDetailsMapper.map(user.getUserDetails()));
-            return Mono.just(userDto);
-        });
+        final var userDto = new UserDto();
+
+        userDto.setId(user.getId());
+        userDto.setFirstName(user.getFirstName());
+        userDto.setLastName(user.getLastName());
+        userDto.setEmail(user.getEmail());
+
+        return Mono.just(userDto);
     }
 }

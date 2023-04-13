@@ -1,14 +1,11 @@
 package com.iprody.user.profile.service;
 
-import com.iprody.user.profile.api.dto.UserDetailsDto;
 import com.iprody.user.profile.api.dto.UserDto;
 import com.iprody.user.profile.persistence.entity.User;
-import com.iprody.user.profile.persistence.entity.UserDetails;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import reactor.test.StepVerifier;
 
-import java.time.ZoneId;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for checking if mapper works properly.
@@ -16,11 +13,9 @@ import java.time.ZoneId;
 class UserMapperTest {
     private static final String FIRST_NAME = "TestFirstName";
     private static final String LAST_NAME = "TestLastName";
-    private static final String TELEGRAM_ID = "TestTelegramId";
-    private static final String MOBILE_PHONE = "TestMobilePhone";
     private static final String EMAIL_ADDRESS = "TestEmail@gmail.com";
     private static final long FIRST_ELEMENT_ID = 1;
-    private final UserMapper userMapper = new UserMapper(new UserDetailsMapper());
+    private final UserMapper userMapper = new UserMapper();
 
     /**
      * Checks, if mapper takes Entity With Details
@@ -50,7 +45,7 @@ class UserMapperTest {
 
         StepVerifier
                 .create(actualUser)
-                .assertNext(user -> Assertions.assertThat(user)
+                .assertNext(user -> assertThat(user)
                         .usingRecursiveComparison()
                         .isEqualTo(expectedUser))
                 .verifyComplete();
@@ -62,7 +57,6 @@ class UserMapperTest {
         user.setFirstName(FIRST_NAME);
         user.setLastName(LAST_NAME);
         user.setEmail(EMAIL_ADDRESS);
-        user.setUserDetails(getUserDetails());
         return user;
     }
 
@@ -72,25 +66,6 @@ class UserMapperTest {
         userDto.setFirstName(FIRST_NAME);
         userDto.setLastName(LAST_NAME);
         userDto.setEmail(EMAIL_ADDRESS);
-        userDto.setUserDetails(getUserDetailsDto());
         return userDto;
-    }
-
-    private UserDetails getUserDetails() {
-        final var userDetails = new UserDetails();
-        userDetails.setId(FIRST_ELEMENT_ID);
-        userDetails.setTelegramId(TELEGRAM_ID);
-        userDetails.setMobilePhone(MOBILE_PHONE);
-        userDetails.setZoneId(ZoneId.systemDefault());
-        return userDetails;
-    }
-
-    private UserDetailsDto getUserDetailsDto() {
-        final var userDetailsDto = new UserDetailsDto();
-        userDetailsDto.setId(FIRST_ELEMENT_ID);
-        userDetailsDto.setTelegramId(TELEGRAM_ID);
-        userDetailsDto.setMobilePhone(MOBILE_PHONE);
-        userDetailsDto.setZoneId(ZoneId.systemDefault());
-        return userDetailsDto;
     }
 }

@@ -2,8 +2,10 @@ package com.iprody.user.profile.service;
 
 import com.iprody.user.profile.api.dto.UserDetailsDto;
 import com.iprody.user.profile.api.dto.UserDto;
+import com.iprody.user.profile.exception.ResourceNotFoundException;
 import liquibase.util.BooleanUtil;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -31,6 +33,18 @@ public class UserProfileService {
     private final UserMapper userMapper;
 
     /**
+     * Service, which contains a set of operations
+     * on UserDetails entity.
+     */
+    private final UserDetailsService userDetailsService;
+
+    /**
+     * Mapper, which contains a set of operations
+     * for mapping DTO and Entities.
+     */
+    private final UserDetailsMapper userDetailsMapper;
+
+    /**
      * Create a user and return a Mono of the created user.
      *
      * @param userDto The user object that we want to create.
@@ -45,7 +59,7 @@ public class UserProfileService {
     /**
      * Update the user with the given id with the given userDto.
      *
-     * @param id The id of the user to update.
+     * @param id      The id of the user to update.
      * @param userDto The user object that will be updated.
      * @return A Mono<UserDto>
      */
@@ -60,13 +74,18 @@ public class UserProfileService {
     /**
      * Update the user details for the given user id and user details id.
      *
-     * @param userId The id of the user that owns the user details.
-     * @param id The id of the user details to be updated.
+     * @param userId         The id of the user that owns the user details.
+     * @param id             The id of the user details to be updated.
      * @param userDetailsDto The user details object that will be updated.
      * @return A Mono<UserDetailsDto>
      */
     public Mono<UserDetailsDto> updateUserDetails(long userId, long id, UserDetailsDto userDetailsDto) {
-        return null;
+        return userDetailsService.existsById(id)
+                .filter(BooleanUtils::isTrue)
+                .flatMap(ignore -> userDetailsMapper.map(userDetailsDto))
+                .flatMap(userDetailsService::updateUserDetails)
+                .flatMap(userDetailsMapper::map)
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException("No UserDetails found with id: " + id)));
     }
 
     /**
@@ -84,10 +103,11 @@ public class UserProfileService {
      * Get the user details for the user with the given id, and the given id.
      *
      * @param userId The userId of the user who is making the request.
-     * @param id The id of the user to be updated.
+     * @param id     The id of the user to be updated.
      * @return A Mono<UserDetailsDto>
      */
     public Mono<UserDetailsDto> getUserDetails(long userId, long id) {
-        return null;
+        return userDetailsService.getUserDetails(id)
+                .flatMap(userDetailsMapper::map);
     }
 }
