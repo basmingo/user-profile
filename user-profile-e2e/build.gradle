@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.springframework)
+    alias(libs.plugins.openapi.generator)
 }
 
 apply plugin: 'java'
@@ -20,9 +21,22 @@ test {
     useJUnitPlatform()
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs += "$buildDir/generated/src/main/java"
+        }
+    }
+}
+
 dependencies {
+    //Open Api Generator dependencies
+    implementation(libs.openapi.tools.jackson)
+    implementation(libs.swagger.parser)
+
     // Spring dependencies
     implementation(libs.spring.boot.web)
+    implementation(libs.spring.boot.webflux)
 
     // Third-party dependencies
     implementation(libs.bundles.cucumber)
@@ -37,3 +51,16 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+openApiGenerate {
+    generatorName = "java"
+    inputSpec = "$rootDir/src/main/resources/user-profile-v1.0.0.json"
+    outputDir = "$buildDir/generated"
+    apiPackage = "com.iprody.user.profile.e2e.generated.api"
+    modelPackage = "com.iprody.user.profile.e2e.generated.model"
+    skipOverwrite = true
+    configOptions = [
+            library     : "resttemplate",
+            useJakartaEe: "true",
+            dateLibrary : "java17"
+    ]
+}
