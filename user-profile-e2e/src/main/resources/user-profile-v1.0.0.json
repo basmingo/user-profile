@@ -14,6 +14,14 @@
     {
       "name": "User profile Api",
       "description": "User profile management"
+    },
+    {
+      "name": "Actuator",
+      "description": "Monitor and interact",
+      "externalDocs": {
+        "description": "Spring Boot Actuator Web API Documentation",
+        "url": "https://docs.spring.io/spring-boot/docs/current/actuator-api/html/"
+      }
     }
   ],
   "paths": {
@@ -359,6 +367,260 @@
           }
         }
       }
+    },
+    "/actuator/mappings": {
+      "get": {
+        "tags": [
+          "Actuator"
+        ],
+        "summary": "Actuator web endpoint 'mappings'",
+        "operationId": "mappings",
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actuator/liquibase": {
+      "get": {
+        "tags": [
+          "Actuator"
+        ],
+        "summary": "Actuator web endpoint 'liquibase'",
+        "operationId": "liquibase",
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actuator/health/{*path}": {
+      "get": {
+        "tags": [
+          "Actuator"
+        ],
+        "summary": "Actuator web endpoint 'health-path'",
+        "operationId": "health-path",
+        "parameters": [
+          {
+            "name": "*path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actuator/health": {
+      "get": {
+        "tags": [
+          "Actuator"
+        ],
+        "summary": "Actuator web endpoint 'health'",
+        "operationId": "health",
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -648,6 +910,210 @@
           }
         },
         "description": "Information about user"
+      },
+      "HealthResponse": {
+        "type": "object",
+        "properties": {
+          "components": {
+            "type": "components"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "Components": {
+        "properties": {
+          "diskSpace": {
+            "type": "discSpace"
+          },
+          "ping": {
+            "type": "ping"
+          },
+          "db": {
+            "type": "db"
+          }
+        }
+      },
+      "discSpace": {
+        "properties": {
+          "diskSpaceDetails": {
+            "type": "diskSpaceDetails"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "diskSpaceDetails": {
+        "type": "object",
+        "properties": {
+          "database": {
+            "type": "string"
+          },
+          "validationQuery": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "exists": {
+            "type": "boolean"
+          },
+          "threshold": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "free": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ping": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "db": {
+        "type": "object",
+        "properties": {
+          "database": {
+            "type": "string"
+          },
+          "validationQuery": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "exists": {
+            "type": "boolean"
+          },
+          "threshold": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "free": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "mappings": {
+        "type": "object",
+        "properties": {
+          "dispatcherHandlers": {
+            "type": "dispatcherHandlers"
+          }
+        }
+      },
+      "dispatcherHandlers": {
+        "type": "object",
+        "properties": {
+          "webHandlers": {
+            "type": "array",
+            "items": {
+              "type": "webHandler"
+            }
+          }
+        }
+      },
+      "webHandler": {
+        "type": "object",
+        "properties": {
+          "predicate": {
+            "type": "string"
+          },
+          "handler": {
+            "type": "string"
+          },
+          "webHandleDetails": {
+            "type": "webHandleDetails"
+          }
+        }
+      },
+      "webHandleDetails": {
+        "type": "object",
+        "properties": {
+          "handlerMethod": {
+            "type": "handlerMethod"
+          },
+          "requestMappingConditions": {
+            "type": "requestMappingConditions"
+          }
+        }
+      },
+      "handlerMethod": {
+        "type": "object",
+        "properties": {
+          "className": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "descriptor": {
+            "type": "string"
+          }
+        }
+      },
+      "requestMappingConditions": {
+        "type": "object",
+        "properties": {
+          "headers": {
+            "items": {
+              "type": "string"
+            }
+          },
+          "methods": {
+            "items": {
+              "type": "string"
+            }
+          },
+          "patterns": {
+            "items": {
+              "type": "string"
+            }
+          },
+          "produces": {
+            "items": {
+              "type": "produce"
+            }
+          },
+          "params": {
+            "items": {
+              "type": "object"
+            }
+          },
+          "consumes": {
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "produce": {
+        "type": "object",
+        "properties": {
+          "negated": {
+            "type": "boolean"
+          },
+          "mediaType": {
+            "type": "string"
+          }
+        }
       }
     }
   }

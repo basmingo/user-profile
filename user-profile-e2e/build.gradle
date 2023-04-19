@@ -41,10 +41,14 @@ dependencies {
     // Third-party dependencies
     implementation(libs.bundles.cucumber)
     implementation(libs.apache.commons.io)
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
 
     // Test dependencies
     testImplementation(libs.spring.boot.test)
     testImplementation(libs.cucumber.junit)
+    testCompileOnly(libs.lombok)
+    testAnnotationProcessor(libs.lombok)
 }
 
 tasks.named('test') {

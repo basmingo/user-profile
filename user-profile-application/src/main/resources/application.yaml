@@ -27,12 +27,14 @@ management:
     enabled-by-default: false
     web:
       exposure:
-        include: health,liquibase,prometheus
+        include: health,liquibase,prometheus,mappings
   endpoint:
     health:
       enabled: true
       show-details: always
     liquibase:
+      enabled: true
+    mappings:
       enabled: true
   metrics:
     export:

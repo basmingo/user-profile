@@ -16,6 +16,7 @@ cucumber-core = { module = 'io.cucumber:cucumber-core', version.ref = 'cucumber-
 cucumber-java = { module = 'io.cucumber:cucumber-java', version.ref = 'cucumber-version' }
 cucumber-spring = { module = 'io.cucumber:cucumber-spring', version.ref = 'cucumber-version' }
 apache-commons-io = { module = 'org.apache.commons:commons-io', version.ref = 'apache-commons-version' }
+lombok = { module = 'org.projectlombok:lombok' }
 
 #OpenAPI
 openapi-tools-jackson = { module = 'org.openapitools:jackson-databind-nullable', version.ref = 'openapi-version' }
