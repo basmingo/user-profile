@@ -1,6 +1,5 @@
 package com.iprody.user.profile.service;
 
-import com.iprody.user.profile.api.dto.UserDto;
 import com.iprody.user.profile.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -28,11 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Testcontainers
 class UserServiceTest {
     private static final long FIRST_DATABASE_ELEMENT_INDEX = 1;
-    private static final long UNEXISTING_IN_DB_ELEMENT_INDEX = 5;
-    private static final String FIRST_NAME = "TestFirstName";
-    private static final String LAST_NAME = "TestLastName";
-    private static final String LAST_NAME_UPDATED = "TestLastNameUpdated";
-    private static final String EMAIL_ADDRESS = "TestEmail@gmail.com";
+    private static final long NOT_EXISTING_IN_DB_ELEMENT_INDEX = 5;
 
     @Container
     private static final PostgreSQLContainer<?> POSTGRE_SQL_CONTAINER =
@@ -67,7 +62,7 @@ class UserServiceTest {
     @Test
     @Order(1)
     void shouldSaveGivenUserIntoDatabase_andRetrieveNewlyCreatedRecordWithIdAssigned() {
-        final var returnedUser = userProfileService.createUser(getUserDto());
+        final var returnedUser = userProfileService.createUser(EntityHatchery.getUserDto());
         StepVerifier
                 .create(returnedUser)
                 .expectNextMatches(el -> el.getId() == FIRST_DATABASE_ELEMENT_INDEX)
@@ -81,7 +76,7 @@ class UserServiceTest {
     @Test
     @Order(2)
     void shouldReturnObjectWithId_WhenUserUpdateWithDetails() {
-        final var userDto = getUserDtoWithIdAndLastNameUpdated();
+        final var userDto = EntityHatchery.getUserDtoWithIdAndLastNameUpdated();
         final var updatedUser = userProfileService.updateUser(userDto.getId(), userDto);
         StepVerifier
                 .create(updatedUser)
@@ -90,11 +85,28 @@ class UserServiceTest {
     }
 
     /**
+     * Checks if update a User with Details and not existing Id returns ResourceNotFoundExceprion
+     * Object with updated field.
+     */
+    @Test
+    @Order(3)
+    void shouldNotReturnObjectWithNotExistingId_WhenUserUpdateWithDetails_SoThrowResourceNotFoundException() {
+        final var notExistingUserDto = EntityHatchery.getUserDtoWithNotExistingIdAndLastNameUpdated();
+        final var updatedUser = userProfileService.updateUser(notExistingUserDto.getId(), notExistingUserDto);
+        StepVerifier
+                .create(updatedUser)
+                .expectErrorMatches(exception -> (
+                        exception instanceof ResourceNotFoundException &&
+                                exception.getMessage().equals("No user found with id: " + notExistingUserDto.getId()))
+                );
+    }
+
+    /**
      * Checks, if find User with details returns
      * an object with valid id.
      */
     @Test
-    @Order(3)
+    @Order(4)
     void shouldFindUser_whenRecordMatchesGivenId() {
         StepVerifier
                 .create(userProfileService.getUserWithDetails(FIRST_DATABASE_ELEMENT_INDEX))
@@ -107,30 +119,13 @@ class UserServiceTest {
      * an Exception.
      */
     @Test
-    @Order(4)
+    @Order(5)
     void shouldReturnException_whenRecordNotMatchesGivenId() {
         StepVerifier
-                .create(userProfileService.getUserWithDetails(UNEXISTING_IN_DB_ELEMENT_INDEX))
+                .create(userProfileService.getUserWithDetails(NOT_EXISTING_IN_DB_ELEMENT_INDEX))
                 .verifyErrorSatisfies(th -> assertThat(th)
                         .isExactlyInstanceOf(ResourceNotFoundException.class)
-                        .hasMessage("No user found with id: " + UNEXISTING_IN_DB_ELEMENT_INDEX)
+                        .hasMessage("No user found with id: " + NOT_EXISTING_IN_DB_ELEMENT_INDEX)
                 );
-    }
-
-    private UserDto getUserDto() {
-        final var userDto = new UserDto();
-        userDto.setFirstName(FIRST_NAME);
-        userDto.setLastName(LAST_NAME);
-        userDto.setEmail(EMAIL_ADDRESS);
-        return userDto;
-    }
-
-    private UserDto getUserDtoWithIdAndLastNameUpdated() {
-        final var userDto = new UserDto();
-        userDto.setId(FIRST_DATABASE_ELEMENT_INDEX);
-        userDto.setFirstName(FIRST_NAME);
-        userDto.setLastName(LAST_NAME_UPDATED);
-        userDto.setEmail(EMAIL_ADDRESS);
-        return userDto;
     }
 }

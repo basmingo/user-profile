@@ -34,10 +34,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class UserDetailsServiceTest {
 
     private static final long FIRST_DATABASE_ELEMENT_INDEX = 1;
-    private static final long UNEXISTING_IN_DB_ELEMENT_INDEX = 4;
+    private static final long NOT_EXISTING_IN_DB_ELEMENT_INDEX = 4;
     private static final String TELEGRAM_ID = "@TestFirstUser";
     private static final String MOBILE_PHONE = "+ 111 222 333 44";
-    private static final String MESSAGE_ERROR = "No UserDetails found with id: " + UNEXISTING_IN_DB_ELEMENT_INDEX;
+    private static final String MESSAGE_ERROR = "No UserDetails found with id: " + NOT_EXISTING_IN_DB_ELEMENT_INDEX;
 
     @Container
     private static final PostgreSQLContainer<?> SQL_CONTAINER =
@@ -90,7 +90,7 @@ class UserDetailsServiceTest {
         final var testCreatedUserDetails = existingUserDetailsDto();
 
         final var returnedUpdateUserDetails = userProfileService
-                .updateUserDetails(UNEXISTING_IN_DB_ELEMENT_INDEX,
+                .updateUserDetails(NOT_EXISTING_IN_DB_ELEMENT_INDEX,
                         testCreatedUserDetails.getId(), testCreatedUserDetails);
 
         StepVerifier
@@ -105,8 +105,8 @@ class UserDetailsServiceTest {
         final var testCreatedUserDetails = existingUserDetailsDto();
 
         final var returnedUpdateUserDetails = userProfileService
-                .updateUserDetails(UNEXISTING_IN_DB_ELEMENT_INDEX,
-                        UNEXISTING_IN_DB_ELEMENT_INDEX, testCreatedUserDetails);
+                .updateUserDetails(NOT_EXISTING_IN_DB_ELEMENT_INDEX,
+                        NOT_EXISTING_IN_DB_ELEMENT_INDEX, testCreatedUserDetails);
 
         StepVerifier
                 .create(returnedUpdateUserDetails)
@@ -121,7 +121,7 @@ class UserDetailsServiceTest {
     void shouldFindGivenUserDetailsIntoDatabase_andRetrieveExistUserDetailsWithIdAssigned() {
         final var testCreatedUserDetails = existingUserDetailsDto();
 
-        final var returnedUserDetails = userProfileService.getUserDetails(UNEXISTING_IN_DB_ELEMENT_INDEX,
+        final var returnedUserDetails = userProfileService.getUserDetails(NOT_EXISTING_IN_DB_ELEMENT_INDEX,
                 testCreatedUserDetails.getId());
 
         StepVerifier
@@ -133,8 +133,8 @@ class UserDetailsServiceTest {
     @Test
     @Order(4)
     void shouldThrowResourceNotFoundException_uponAttemptToGetUserDetails_becauseRecordWithGivenIdDoesNotExists() {
-        final var returnedUserDetails = userProfileService.getUserDetails(UNEXISTING_IN_DB_ELEMENT_INDEX,
-                UNEXISTING_IN_DB_ELEMENT_INDEX);
+        final var returnedUserDetails = userProfileService.getUserDetails(NOT_EXISTING_IN_DB_ELEMENT_INDEX,
+                NOT_EXISTING_IN_DB_ELEMENT_INDEX);
 
         StepVerifier
                 .create(returnedUserDetails)

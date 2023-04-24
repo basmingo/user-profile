@@ -15,6 +15,9 @@ import lombok.Setter;
 
 import java.time.ZoneId;
 
+/**
+ * The type User details.
+ */
 @Entity
 @Table(name = "user_details")
 @Getter

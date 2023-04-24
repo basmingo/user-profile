@@ -1,78 +1,39 @@
 package com.iprody.user.profile.service;
 
-import com.iprody.user.profile.api.dto.UserDetailsDto;
-import com.iprody.user.profile.persistence.entity.UserDetails;
 import org.junit.jupiter.api.Test;
-import reactor.test.StepVerifier;
-
-import java.time.ZoneId;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * User details mapper test.
+ */
 public class UserDetailsMapperTest {
-    private static final String TELEGRAM_ID = "@TestUser";
-    private static final String MOBILE_PHONE = "+ 111 222 333 44";
-    private static final long FIRST_ELEMENT_ID = 1;
 
     /**
-     * Creating UserDetails test data.
-     *
-     * @return userDetails
+     * Checks, if mapper takes Entity With DetailsDto
+     * and returns a correct Details.
      */
-    private UserDetails mapperUserDetails() {
-        final var userDetails = new UserDetails();
-        userDetails.setId(FIRST_ELEMENT_ID);
-        userDetails.setTelegramId(TELEGRAM_ID);
-        userDetails.setMobilePhone(MOBILE_PHONE);
-        userDetails.setZoneId(ZoneId.systemDefault());
+    @Test
+    void shouldReturnValidUserDetailsDto_WhenMapperContainingUserDetails() {
+        final var expectedUserDetailsDto = EntityHatchery.getUserDetailsDto();
+        final var mappedUserDetailsDto = new UserDetailsMapper().map(EntityHatchery.getUserDetails());
 
-        return userDetails;
-    }
-
-    /**
-     * Creating UserDetailsDto test data.
-     *
-     * @return userDetails
-     */
-    private UserDetailsDto mapperUserDetailsDto() {
-        final var userDetailsDto = new UserDetailsDto();
-        userDetailsDto.setId(FIRST_ELEMENT_ID);
-        userDetailsDto.setTelegramId(TELEGRAM_ID);
-        userDetailsDto.setMobilePhone(MOBILE_PHONE);
-        userDetailsDto.setZoneId(ZoneId.systemDefault());
-
-        return userDetailsDto;
+        assertThat(mappedUserDetailsDto)
+                .usingRecursiveComparison()
+                .isEqualTo(expectedUserDetailsDto);
     }
 
     /**
      * Checks, if mapper takes Entity With Details
-     * and returns a correct Mono with DTO.
+     *      * and returns a correct DetailsDTO.
      */
     @Test
-    void shouldReturnValidUserDetails_WhenMapperContainingUserDetailsDto() {
-        final var expectedMapperUserDetailsDto = mapperUserDetailsDto();
-        final var actualMappedUserDetailsDto = new UserDetailsMapper().map(mapperUserDetails());
+    void shouldReturnValidUserDetails_WhenMapperContainingCorrectUserDetailsDto() {
+        final var expectedUserDetails = EntityHatchery.getUserDetails();
+        final var mappedUserDetailsDto = new UserDetailsMapper().map(EntityHatchery.getUserDetailsDto());
 
-        StepVerifier
-                .create(actualMappedUserDetailsDto)
-                .assertNext(userDetailsDtoCurrent -> assertThat(userDetailsDtoCurrent)
-                        .isEqualTo(expectedMapperUserDetailsDto))
-                .verifyComplete();
-    }
-
-    /**
-     * Checks, if mapper takes Entity With Details
-     * and returns an incorrect Mono with DTO.
-     */
-    @Test
-    void shouldReturnNotValidUserDetails_WhenMapperContainingIncorrectUserDetailsDto() {
-        final var expectedMapperUserDetails = mapperUserDetails();
-        final var actualMappedUserDetailsDto = new UserDetailsMapper().map(mapperUserDetailsDto());
-
-        StepVerifier
-                .create(actualMappedUserDetailsDto)
-                .assertNext(userDetailsDtoCurrent -> assertThat(userDetailsDtoCurrent)
-                        .isNotEqualTo(expectedMapperUserDetails))
-                .verifyComplete();
+        assertThat(mappedUserDetailsDto)
+                .usingRecursiveComparison()
+                .isEqualTo(expectedUserDetails);
     }
 }

@@ -1011,6 +1011,30 @@
           }
         }
       },
+      "mappingResponse": {
+        "type": "object",
+        "properties": {
+          "contexts": {
+            "type": "contexts"
+          }
+        }
+      },
+      "contexts": {
+        "type": "object",
+        "properties": {
+          "application": {
+            "type": "application"
+          }
+        }
+      },
+      "application": {
+        "type": "object",
+        "properties": {
+          "mappings": {
+            "type": "mappings"
+          }
+        }
+      },
       "mappings": {
         "type": "object",
         "properties": {

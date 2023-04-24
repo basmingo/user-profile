@@ -3,7 +3,6 @@ package com.iprody.user.profile.service;
 import com.iprody.user.profile.api.dto.UserDetailsDto;
 import com.iprody.user.profile.persistence.entity.UserDetails;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
 
 /**
  * Represents a service, with a set of operations
@@ -18,7 +17,7 @@ public class UserDetailsMapper {
      * @return a UserDetails object, which could be persisted
      * by the Database.
      */
-    public Mono<UserDetails> map(UserDetailsDto userDetailsDto) {
+    public UserDetails map(UserDetailsDto userDetailsDto) {
         final var userDetails = new UserDetails();
 
         userDetails.setId(userDetailsDto.getId());
@@ -26,7 +25,7 @@ public class UserDetailsMapper {
         userDetails.setMobilePhone(userDetailsDto.getMobilePhone());
         userDetails.setZoneId(userDetailsDto.getZoneId());
 
-        return Mono.just(userDetails);
+        return userDetails;
     }
 
     /**
@@ -34,7 +33,7 @@ public class UserDetailsMapper {
      *                    to the DTO.
      * @return DTO, which represents a UserDetails.
      */
-    public Mono<UserDetailsDto> map(UserDetails userDetails) {
+    public UserDetailsDto map(UserDetails userDetails) {
         final var userDetailsDto = new UserDetailsDto();
 
         userDetailsDto.setId(userDetails.getId());
@@ -42,6 +41,6 @@ public class UserDetailsMapper {
         userDetailsDto.setMobilePhone(userDetails.getMobilePhone());
         userDetailsDto.setZoneId(userDetails.getZoneId());
 
-        return Mono.just(userDetailsDto);
+        return userDetailsDto;
     }
 }

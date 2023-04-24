@@ -16,6 +16,11 @@ import reactor.core.publisher.Mono;
 public class UserService {
 
     /**
+     * Message for the ResourceNotFoundException.
+     */
+    private static final String EXCEPTION_MESSAGE = "No user found with id: ";
+
+    /**
      * Autowired Repository, for the Database operations.
      */
     private final UserRepository userRepository;
@@ -39,7 +44,8 @@ public class UserService {
      * Empty Mono, if required user is not existed.
      */
     public Mono<User> updateUser(User user) {
-        return Mono.just(userRepository.save(user));
+        return Mono.justOrEmpty(userRepository.save(user))
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException(EXCEPTION_MESSAGE + user.getId())));
     }
 
     /**
@@ -53,7 +59,7 @@ public class UserService {
      */
     public Mono<User> getUserWithDetails(long id) {
         return Mono.justOrEmpty(userRepository.findById(id))
-                .switchIfEmpty(Mono.error(new ResourceNotFoundException("No user found with id: " + id)));
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException(EXCEPTION_MESSAGE + id)));
     }
 
     /**

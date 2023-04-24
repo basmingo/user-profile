@@ -51,9 +51,9 @@ public class UserProfileService {
      * @return A Mono<UserDto>
      */
     public Mono<UserDto> createUser(UserDto userDto) {
-        return userMapper.map(userDto)
+        return Mono.just(userMapper.map(userDto))
                 .flatMap(userService::createUser)
-                .flatMap(userMapper::map);
+                .map(userMapper::map);
     }
 
     /**
@@ -66,9 +66,10 @@ public class UserProfileService {
     public Mono<UserDto> updateUser(long id, UserDto userDto) {
         return userService.existsById(id)
                 .filter(BooleanUtil::isTrue)
-                .flatMap(ignore -> userMapper.map(userDto))
+                .map(ignore -> userMapper.map(userDto))
                 .flatMap(userService::updateUser)
-                .flatMap(userMapper::map);
+                .map(userMapper::map)
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException("No user found with id: " + id)));
     }
 
     /**
@@ -82,9 +83,9 @@ public class UserProfileService {
     public Mono<UserDetailsDto> updateUserDetails(long userId, long id, UserDetailsDto userDetailsDto) {
         return userDetailsService.existsById(id)
                 .filter(BooleanUtils::isTrue)
-                .flatMap(ignore -> userDetailsMapper.map(userDetailsDto))
+                .map(ignore -> userDetailsMapper.map(userDetailsDto))
                 .flatMap(userDetailsService::updateUserDetails)
-                .flatMap(userDetailsMapper::map)
+                .map(userDetailsMapper::map)
                 .switchIfEmpty(Mono.error(new ResourceNotFoundException("No UserDetails found with id: " + id)));
     }
 
@@ -96,7 +97,7 @@ public class UserProfileService {
      */
     public Mono<UserDto> getUserWithDetails(long id) {
         return userService.getUserWithDetails(id)
-                .flatMap(userMapper::map);
+                .map(userMapper::map);
     }
 
     /**
@@ -108,6 +109,6 @@ public class UserProfileService {
      */
     public Mono<UserDetailsDto> getUserDetails(long userId, long id) {
         return userDetailsService.getUserDetails(id)
-                .flatMap(userDetailsMapper::map);
+                .map(userDetailsMapper::map);
     }
 }
