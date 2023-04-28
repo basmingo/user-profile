@@ -55,5 +55,6 @@ public class UserDetailsDto {
      * A timezone of the user.
      */
     @NotNull(message = "Timezone cannot be null")
+    @Schema(type = "string", description="A time-zone ID, such as Europe/Paris.", example = "Europe/Paris")
     private ZoneId zoneId;
 }

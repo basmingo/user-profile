@@ -411,17 +411,17 @@
             "content": {
               "application/vnd.spring-boot.actuator.v3+json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/MappingResponse"
                 }
               },
               "application/vnd.spring-boot.actuator.v2+json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/MappingResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/MappingResponse"
                 }
               }
             }
@@ -604,17 +604,17 @@
             "content": {
               "application/vnd.spring-boot.actuator.v3+json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/HealthResponse"
                 }
               },
               "application/vnd.spring-boot.actuator.v2+json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/HealthResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/HealthResponse"
                 }
               }
             }
@@ -684,197 +684,7 @@
             "type": "string"
           },
           "zoneId": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "rules": {
-                "type": "object",
-                "properties": {
-                  "fixedOffset": {
-                    "type": "boolean"
-                  },
-                  "transitions": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "offsetBefore": {
-                          "type": "object",
-                          "properties": {
-                            "totalSeconds": {
-                              "type": "integer",
-                              "format": "int32"
-                            },
-                            "id": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        "offsetAfter": {
-                          "type": "object",
-                          "properties": {
-                            "totalSeconds": {
-                              "type": "integer",
-                              "format": "int32"
-                            },
-                            "id": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        "overlap": {
-                          "type": "boolean"
-                        },
-                        "instant": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "duration": {
-                          "type": "object",
-                          "properties": {
-                            "seconds": {
-                              "type": "integer",
-                              "format": "int64"
-                            },
-                            "nano": {
-                              "type": "integer",
-                              "format": "int32"
-                            },
-                            "negative": {
-                              "type": "boolean"
-                            },
-                            "zero": {
-                              "type": "boolean"
-                            },
-                            "units": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "dateBased": {
-                                    "type": "boolean"
-                                  },
-                                  "timeBased": {
-                                    "type": "boolean"
-                                  },
-                                  "durationEstimated": {
-                                    "type": "boolean"
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        },
-                        "gap": {
-                          "type": "boolean"
-                        },
-                        "dateTimeBefore": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "dateTimeAfter": {
-                          "type": "string",
-                          "format": "date-time"
-                        }
-                      }
-                    }
-                  },
-                  "transitionRules": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "month": {
-                          "type": "string",
-                          "enum": [
-                            "JANUARY",
-                            "FEBRUARY",
-                            "MARCH",
-                            "APRIL",
-                            "MAY",
-                            "JUNE",
-                            "JULY",
-                            "AUGUST",
-                            "SEPTEMBER",
-                            "OCTOBER",
-                            "NOVEMBER",
-                            "DECEMBER"
-                          ]
-                        },
-                        "timeDefinition": {
-                          "type": "string",
-                          "enum": [
-                            "UTC",
-                            "WALL",
-                            "STANDARD"
-                          ]
-                        },
-                        "standardOffset": {
-                          "type": "object",
-                          "properties": {
-                            "totalSeconds": {
-                              "type": "integer",
-                              "format": "int32"
-                            },
-                            "id": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        "offsetBefore": {
-                          "type": "object",
-                          "properties": {
-                            "totalSeconds": {
-                              "type": "integer",
-                              "format": "int32"
-                            },
-                            "id": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        "offsetAfter": {
-                          "type": "object",
-                          "properties": {
-                            "totalSeconds": {
-                              "type": "integer",
-                              "format": "int32"
-                            },
-                            "id": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        "dayOfWeek": {
-                          "type": "string",
-                          "enum": [
-                            "MONDAY",
-                            "TUESDAY",
-                            "WEDNESDAY",
-                            "THURSDAY",
-                            "FRIDAY",
-                            "SATURDAY",
-                            "SUNDAY"
-                          ]
-                        },
-                        "dayOfMonthIndicator": {
-                          "type": "integer",
-                          "format": "int32"
-                        },
-                        "localTime": {
-                          "$ref": "#/components/schemas/LocalTime"
-                        },
-                        "midnightEndOfDay": {
-                          "type": "boolean"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            "type": "string"
           }
         },
         "description": "Information about user details"
@@ -1011,7 +821,7 @@
           }
         }
       },
-      "mappingResponse": {
+      "MappingResponse": {
         "type": "object",
         "properties": {
           "contexts": {
@@ -1046,7 +856,7 @@
       "dispatcherHandlers": {
         "type": "object",
         "properties": {
-          "webHandlers": {
+          "webHandler": {
             "type": "array",
             "items": {
               "type": "webHandler"
@@ -1063,12 +873,12 @@
           "handler": {
             "type": "string"
           },
-          "webHandleDetails": {
-            "type": "webHandleDetails"
+          "details": {
+            "type": "details"
           }
         }
       },
-      "webHandleDetails": {
+      "details": {
         "type": "object",
         "properties": {
           "handlerMethod": {
