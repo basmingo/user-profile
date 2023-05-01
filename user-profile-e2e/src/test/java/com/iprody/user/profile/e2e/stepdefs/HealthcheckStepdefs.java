@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.assertj.core.api.SoftAssertions;
+import org.springframework.boot.actuate.health.Status;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -42,7 +43,7 @@ public class HealthcheckStepdefs {
         softly.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         final var healthResponse = response.getBody();
         softly.assertThat(healthResponse).isNotNull();
-        softly.assertThat(healthResponse.getStatus()).isEqualTo("UP");
+        softly.assertThat(healthResponse.getStatus()).isEqualTo(Status.UP.toString());
         softly.assertAll();
     }
 
@@ -61,8 +62,11 @@ public class HealthcheckStepdefs {
         softly.assertThat(mappingResponseResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         final var mappingResponse = mappingResponseResponseEntity.getBody();
         softly.assertThat(mappingResponse).isNotNull();
-        softly.assertThat(EndpointFinder.endpointIsAvailable(
-                                mappingResponse, expectedUserEndpoint.get("method"), expectedUserEndpoint.get("endpoint")
+        softly.assertThat(
+                        EndpointFinder.endpointIsAvailable(
+                                mappingResponse,
+                                expectedUserEndpoint.get("method"),
+                                expectedUserEndpoint.get("endpoint")
                         )
                 )
                 .isTrue();

@@ -10,39 +10,39 @@ Feature: Create User
   @create_successfully
   Scenario: create User successfully
     When a client wants to create a user:
-      | key                     | value            |
-      | id                      | 1                |
-      | firstName               | Young            |
-      | lastName                | Youngling        |
-      | email                   | young@test.ru    |
-      | userDetails.id          | 1                |
-      | userDetails.telegramId  | @telegram        |
-      | userDetails.mobilePhone | +111 222 333 444 |
-      | userDetails.zoneId      | Europe/Paris     |
+      | key                     | value                |
+      | id                      | 1                    |
+      | firstName               | John                 |
+      | lastName                | Doe                  |
+      | email                   | john.doe@example.com |
+      | userDetails.id          | 1                    |
+      | userDetails.telegramId  | @johndoe             |
+      | userDetails.mobilePhone | +1 555-555-5555      |
+      | userDetails.zoneId      | America/New_York     |
     Then response code is 201
     And response body contains:
-      | key                     | value            |
-      | id                      | 1                |
-      | firstName               | Young            |
-      | lastName                | Youngling        |
-      | email                   | young@test.ru    |
-      | userDetails.id          | 1                |
-      | userDetails.telegramId  | @telegram        |
-      | userDetails.mobilePhone | +111 222 333 444 |
-      | userDetails.zoneId      | Europe/Paris     |
+      | key                     | value                |
+      | id                      | 1                    |
+      | firstName               | John                 |
+      | lastName                | Doe                  |
+      | email                   | john.doe@example.com |
+      | userDetails.id          | 1                    |
+      | userDetails.telegramId  | @johndoe             |
+      | userDetails.mobilePhone | +1 555-555-5555      |
+      | userDetails.zoneId      | America/New_York     |
 
   @invalid_parameters
   Scenario: client error while creating a user with invalid parameters
     When a client wants to create a user:
       | key                     | value            |
       | id                      | 1                |
-      | firstName               | Young            |
-      | lastName                | Youngling        |
+      | firstName               | John             |
+      | lastName                | Doe              |
       | email                   | testEmailxxx.com |
       | userDetails.id          | 1                |
-      | userDetails.telegramId  | @telegram        |
-      | userDetails.mobilePhone | +111 636 856 789 |
-      | userDetails.zoneId      | Europe/Paris     |
+      | userDetails.telegramId  | @johndoe         |
+      | userDetails.mobilePhone | +1 555-555-5555  |
+      | userDetails.zoneId      | America/New_York |
     Then response code is 400
     And response body contains error:
       | key     | value                          |

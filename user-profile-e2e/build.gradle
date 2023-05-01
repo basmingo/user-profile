@@ -37,6 +37,7 @@ dependencies {
     // Spring dependencies
     implementation(libs.spring.boot.web)
     implementation(libs.spring.boot.webflux)
+    implementation(libs.spring.boot.actuator)
 
     // Third-party dependencies
     implementation(libs.bundles.cucumber)

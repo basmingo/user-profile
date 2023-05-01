@@ -25,9 +25,10 @@ public class ResponseStepdefs {
     public void responseBodyContains(Map<String, String> expectedResponseBody) {
         final var expected = DataTableMapper.mapToUserDto(expectedResponseBody);
         final var actualResponse = TestContext.CONTEXT.getResponse(ResponseEntity.class);
-        final var actualUserDto = (UserDto) actualResponse.getBody();
 
-        assertThat(actualUserDto).isEqualTo(expected);
+        assertThat(actualResponse)
+                .extracting(response -> (UserDto) response.getBody())
+                .isEqualTo(expected);
     }
 
     /**
@@ -42,7 +43,7 @@ public class ResponseStepdefs {
         final var actualApiError = (ApiError) actualResponse.getBody();
 
         final SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(actualApiError).isNotNull();
+        softly.assertThat(actualResponse).isNotNull();
         softly.assertThat(actualApiError.getStatus()).isEqualTo(expectedResponse.getStatus());
         softly.assertThat(actualApiError.getMessage()).startsWith(expectedResponse.getMessage());
         softly.assertAll();

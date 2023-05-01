@@ -10,6 +10,7 @@ openapi-generator-version = '6.3.0'
 #spring
 spring-boot-web = { module = 'org.springframework.boot:spring-boot-starter-web' }
 spring-boot-webflux = { module = 'org.springframework.boot:spring-boot-starter-webflux' }
+spring-boot-actuator = { module = 'org.springframework.boot:spring-boot-starter-actuator' }
 
 #third party
 cucumber-core = { module = 'io.cucumber:cucumber-core', version.ref = 'cucumber-version' }

@@ -1,5 +1,6 @@
 package com.iprody.user.profile.e2e.stepdefs.user;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iprody.user.profile.e2e.RestResponseExceptionHandler;
 import com.iprody.user.profile.e2e.generated.api.UserProfileApiApi;
 import com.iprody.user.profile.e2e.stepdefs.TestContext;
@@ -22,6 +23,8 @@ public class CreateUserStepdefs {
      */
     private UserProfileApiApi userProfileApi;
 
+    ObjectMapper objectMapper;
+
     /**
      * Sends a POST request to the user profile API to create a user.
      *
@@ -31,7 +34,8 @@ public class CreateUserStepdefs {
     public void aClientWantToCreateUser(Map<String, String> dataTable) {
         final var userDto = DataTableMapper.mapToUserDto(dataTable);
         final var response = RestResponseExceptionHandler.sendRequest(
-                () -> userProfileApi.createUserWithHttpInfo(userDto));
+                () -> userProfileApi.createUserWithHttpInfo(userDto), objectMapper
+        );
 
         TestContext.CONTEXT.setResponse(response);
     }
