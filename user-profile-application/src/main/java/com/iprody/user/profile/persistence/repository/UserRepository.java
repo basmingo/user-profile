@@ -8,4 +8,5 @@ import org.springframework.data.repository.CrudRepository;
  * Database with a User.
  */
 public interface UserRepository extends CrudRepository<User, Long> {
+    boolean existsByEmail(String email);
 }
