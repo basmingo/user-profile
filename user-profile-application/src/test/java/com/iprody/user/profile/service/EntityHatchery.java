@@ -30,7 +30,9 @@ public final class EntityHatchery {
      * The Last name.
      */
     private String LAST_NAME = "TestLastName";
-
+    /**
+     * The last name updated.
+     */
     private String LAST_NAME_UPDATED = "TestLastNameUpdated";
     /**
      * The Email address.

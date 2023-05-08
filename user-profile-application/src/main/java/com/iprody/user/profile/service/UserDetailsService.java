@@ -53,5 +53,4 @@ public class UserDetailsService {
     public Mono<Boolean> existsById(long id) {
         return Mono.justOrEmpty(userDetailsRepository.existsById(id));
     }
-
 }

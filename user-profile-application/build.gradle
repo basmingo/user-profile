@@ -22,7 +22,7 @@ test {
 }
 
 bootJar {
-    enabled = false
+    enabled = true
 }
 
 dependencies {

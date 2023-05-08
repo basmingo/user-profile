@@ -44,6 +44,7 @@ dependencies {
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
 
+
     // Test dependencies
     testImplementation(libs.spring.boot.test)
     testImplementation(libs.cucumber.junit)
@@ -68,3 +69,5 @@ openApiGenerate {
             dateLibrary : "java17"
     ]
 }
+
+compileJava.dependsOn tasks.getByName("openApiGenerate")

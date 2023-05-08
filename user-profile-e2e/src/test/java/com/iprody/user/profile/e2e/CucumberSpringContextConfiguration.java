@@ -14,10 +14,7 @@ import org.springframework.web.client.RestTemplate;
  * Configuration for cucumber context.
  */
 @CucumberContextConfiguration
-@SpringBootTest(
-        classes = {UserProfileE2eApplication.class, RestTemplate.class},
-        webEnvironment = WebEnvironment.RANDOM_PORT
-)
+@SpringBootTest(classes = UserProfileE2eApplication.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 public class CucumberSpringContextConfiguration {
     /**
      * Initialization of logger for logging test cases.
